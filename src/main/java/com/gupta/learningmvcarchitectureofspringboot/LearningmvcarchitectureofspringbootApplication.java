@@ -1,0 +1,15 @@
+package com.gupta.learningmvcarchitectureofspringboot;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LearningmvcarchitectureofspringbootApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(LearningmvcarchitectureofspringbootApplication.class, args);
+
+		System.out.println("Hello World");
+	}
+
+}
