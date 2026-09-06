@@ -1,6 +1,9 @@
 package com.gupta.learningmvcarchitectureofspringboot.DTO;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
+
 
 public class EmployeeDTO {
 
@@ -11,6 +14,9 @@ public class EmployeeDTO {
     private LocalDate dob;
     private Boolean isActive;
 
+    public EmployeeDTO() {
+    }
+
     public EmployeeDTO(Long id, String name, int age, String address, LocalDate dob, Boolean isActive) {
         this.id = id;
         this.name = name;
@@ -19,6 +25,8 @@ public class EmployeeDTO {
         this.dob = dob;
         this.isActive = isActive;
     }
+
+
 
     public Long getId() {
         return id;
@@ -60,11 +68,11 @@ public class EmployeeDTO {
         this.dob = dob;
     }
 
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }

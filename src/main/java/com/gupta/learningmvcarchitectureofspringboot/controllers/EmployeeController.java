@@ -21,18 +21,18 @@ public class EmployeeController {
 
 
     @GetMapping("/{id}")
-    public EmployeeEntity getEmployeeDetails(@PathVariable Long id) {
+    public EmployeeDTO getEmployeeDetails(@PathVariable Long id) {
         return employeeService.findById(id);
     }
 
 
     @PostMapping
-    public EmployeeEntity createEmployee(@RequestBody EmployeeEntity employee) {
+    public EmployeeDTO createEmployee(@RequestBody EmployeeEntity employee) {
         return employeeService.save(employee);
     }
 
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return employeeService.findAll();
     }
 
