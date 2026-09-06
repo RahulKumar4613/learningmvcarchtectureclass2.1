@@ -1,6 +1,6 @@
 package com.gupta.learningmvcarchitectureofspringboot.service;
 
-import aj.org.objectweb.asm.commons.Remapper;
+
 import com.gupta.learningmvcarchitectureofspringboot.DTO.EmployeeDTO;
 import com.gupta.learningmvcarchitectureofspringboot.entities.EmployeeEntity;
 import com.gupta.learningmvcarchitectureofspringboot.repositories.EmployeeRepository;
@@ -55,13 +55,18 @@ public class EmployeeService {
 
         EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
 
-        if (employeeRepository.existsById(id)) {
-            System.out.println(id);
+        if (employeeRepository.existsById(id))
             employeeEntity.setId(id);
-        }
         EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
         return modelMapper.map(employeeEntity1, EmployeeDTO.class);
 
         
+    }
+
+    public boolean deleteById(Long id) {
+        if(!employeeRepository.existsById(id))
+            return false;
+        employeeRepository.deleteById(id);
+        return true;
     }
 }

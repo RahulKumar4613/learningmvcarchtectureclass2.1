@@ -1,8 +1,6 @@
 package com.gupta.learningmvcarchitectureofspringboot.controllers;
 
 import com.gupta.learningmvcarchitectureofspringboot.DTO.EmployeeDTO;
-import com.gupta.learningmvcarchitectureofspringboot.entities.EmployeeEntity;
-import com.gupta.learningmvcarchitectureofspringboot.repositories.EmployeeRepository;
 import com.gupta.learningmvcarchitectureofspringboot.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +37,11 @@ public class EmployeeController {
     @PutMapping(path="/{id}")
     public EmployeeDTO updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
         return employeeService.updateById(id, employee);
+    }
+
+    @DeleteMapping(path="/{id}")
+    public boolean deleteEmployee(@PathVariable Long id) {
+        return employeeService.deleteById(id);
     }
 
 }
