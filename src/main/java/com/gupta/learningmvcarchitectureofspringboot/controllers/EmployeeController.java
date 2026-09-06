@@ -27,7 +27,7 @@ public class EmployeeController {
 
 
     @PostMapping
-    public EmployeeDTO createEmployee(@RequestBody EmployeeEntity employee) {
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employee) {
         return employeeService.save(employee);
     }
 

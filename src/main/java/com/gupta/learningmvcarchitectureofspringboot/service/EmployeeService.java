@@ -25,10 +25,10 @@ public class EmployeeService {
 
     }
 
-    public EmployeeDTO save(EmployeeEntity employeeEntity) {
-        EmployeeEntity employeeEntity1=employeeRepository.save(employeeEntity);
-       EmployeeDTO employeeDTO=modelMapper.map(employeeEntity1,EmployeeDTO.class);
-       return employeeDTO;
+    public EmployeeDTO save(EmployeeDTO employeeDTO) {
+        EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
+        EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
+        return modelMapper.map(employeeEntity1, EmployeeDTO.class);
     }
 
     public EmployeeDTO findById(Long id) {
