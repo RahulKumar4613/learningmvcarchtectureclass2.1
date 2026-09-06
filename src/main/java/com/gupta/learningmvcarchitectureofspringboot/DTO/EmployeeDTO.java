@@ -1,10 +1,10 @@
 package com.gupta.learningmvcarchitectureofspringboot.DTO;
 
-import org.springframework.stereotype.Component;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-
+@NoArgsConstructor
 public class EmployeeDTO {
 
     private Long id;
@@ -13,9 +13,6 @@ public class EmployeeDTO {
     private String address;
     private LocalDate dob;
     private Boolean isActive;
-
-    public EmployeeDTO() {
-    }
 
     public EmployeeDTO(Long id, String name, int age, String address, LocalDate dob, Boolean isActive) {
         this.id = id;

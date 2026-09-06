@@ -14,7 +14,6 @@ import java.util.List;
 public class EmployeeService {
 
 
-
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
 
@@ -32,24 +31,37 @@ public class EmployeeService {
     }
 
     public EmployeeDTO findById(Long id) {
-        EmployeeEntity employeeEntity1=employeeRepository.findById(id).orElse(null);
-        return modelMapper.map(employeeEntity1,EmployeeDTO.class);
+        EmployeeEntity employeeEntity1 = employeeRepository.findById(id).orElse(null);
+        return modelMapper.map(employeeEntity1, EmployeeDTO.class);
     }
 
     public List<EmployeeDTO> findAll() {
 
-       List<EmployeeEntity> employeeEntity1= employeeRepository.findAll();
+        List<EmployeeEntity> employeeEntity1 = employeeRepository.findAll();
 
-       ArrayList<EmployeeDTO> employeeDTO=new ArrayList<>();
+        ArrayList<EmployeeDTO> employeeDTO = new ArrayList<>();
 
-       for(EmployeeEntity employeeEntity:employeeEntity1){
+        for (EmployeeEntity employeeEntity : employeeEntity1) {
 
 
-           employeeDTO.add(modelMapper.map(employeeEntity, EmployeeDTO.class));
-       }
-       return employeeDTO;
+            employeeDTO.add(modelMapper.map(employeeEntity, EmployeeDTO.class));
+        }
+        return employeeDTO;
 
     }
 
 
+    public EmployeeDTO updateById(Long id, EmployeeDTO employeeDTO) {
+
+        EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
+
+        if (employeeRepository.existsById(id)) {
+            System.out.println(id);
+            employeeEntity.setId(id);
+        }
+        EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
+        return modelMapper.map(employeeEntity1, EmployeeDTO.class);
+
+        
+    }
 }

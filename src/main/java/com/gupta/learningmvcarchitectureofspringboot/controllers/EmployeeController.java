@@ -36,5 +36,9 @@ public class EmployeeController {
         return employeeService.findAll();
     }
 
+    @PutMapping(path="/{id}")
+    public EmployeeDTO updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+        return employeeService.updateById(id, employee);
+    }
 
 }
