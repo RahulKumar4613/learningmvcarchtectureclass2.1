@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -36,9 +37,9 @@ public class EmployeeService {
         return modelMapper.map(employeeEntity1, EmployeeDTO.class);
     }
 
-    public EmployeeDTO findById(Long id) {
-        EmployeeEntity employeeEntity1 = employeeRepository.findById(id).orElse(null);
-        return modelMapper.map(employeeEntity1, EmployeeDTO.class);
+    public Optional<EmployeeDTO> findById(Long id) {
+      Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(id);
+      return employeeEntity.map(entity-> modelMapper.map(entity,EmployeeDTO.class));
     }
 
     public List<EmployeeDTO> findAll() {
@@ -84,8 +85,8 @@ public class EmployeeService {
         return true;
     }
 
-    @PatchMapping(path="/{id}")
-    public EmployeeDTO updateByIdPatch(@RequestBody Map<String, Object> updates,@PathVariable Long id){
+
+    public EmployeeDTO updateByIdPatch(Map<String, Object> updates,Long id){
 
         EmployeeEntity employeeEntity = employeeRepository.findById(id).orElse(null);
         if(employeeEntity==null){
