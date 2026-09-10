@@ -23,15 +23,20 @@ public class EmployeeController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> getEmployeeDetails(@PathVariable Long id) {
+    public ResponseEntity<Optional<EmployeeDTO>> getEmployeeDetails(@PathVariable Long id) {
 
-        Optional<EmployeeDTO> employeeDTO = employeeService.findById(id);
+
 
       //  return employeeDTO.map(employeeDTO1-> ResponseEntity.ok(employeeDTO1))
          //       .orElse(ResponseEntity.notFound().build());
           // lambda expression converted into method reference for better readability
-          return employeeDTO.map(ResponseEntity::ok)
-               .orElse(ResponseEntity.notFound().build());
+
+             if(employeeService.findById(id).isPresent()){
+                 return ResponseEntity.ok(employeeService.findById(id));
+             }
+             else{
+                 return ResponseEntity.notFound().build();
+             }
     }
 
 
@@ -73,6 +78,12 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(employeeDTO);
+    }
+
+    @PatchMapping
+    public ResponseEntity<List<EmployeeDTO>> updateAllEmployees(@RequestBody Map<String, Object> updates) {
+
+        return ResponseEntity.ok(employeeService.updateAllEmployees(updates));
     }
 }
 

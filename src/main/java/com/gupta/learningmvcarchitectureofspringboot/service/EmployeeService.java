@@ -7,10 +7,6 @@ import com.gupta.learningmvcarchitectureofspringboot.repositories.EmployeeReposi
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +27,11 @@ public class EmployeeService {
 
     }
 
+    public boolean IsExist(Long id){
+        return employeeRepository.existsById(id);
+    }
+
+
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
         EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
@@ -39,14 +40,18 @@ public class EmployeeService {
 
     public Optional<EmployeeDTO> findById(Long id) {
       Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(id);
-      return employeeEntity.map(entity-> modelMapper.map(entity,EmployeeDTO.class));
+      if(employeeEntity.isPresent()){
+          return employeeEntity.map(entity-> modelMapper.map(entity,EmployeeDTO.class));
+      }
+      else
+             return Optional.empty();
     }
 
     public List<EmployeeDTO> findAll() {
 
         List<EmployeeEntity> employeeEntity1 = employeeRepository.findAll();
 
-        ArrayList<EmployeeDTO> employeeDTO = new ArrayList<>();
+        List<EmployeeDTO> employeeDTO = new ArrayList<>();
 
         for (EmployeeEntity employeeEntity : employeeEntity1) {
 
@@ -57,9 +62,6 @@ public class EmployeeService {
 
     }
 
-    public boolean IsExist(Long id){
-        return employeeRepository.existsById(id);
-    }
 
 
     public EmployeeDTO updateById(Long id, EmployeeDTO employeeDTO) {
@@ -78,7 +80,8 @@ public class EmployeeService {
     }
 
     public boolean deleteById(Long id) {
-        boolean isexist= IsExist(id);
+        boolean
+                isexist= IsExist(id);
         if(!isexist)
             return false;
         employeeRepository.deleteById(id);
@@ -108,4 +111,22 @@ public class EmployeeService {
         return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
 
     }
+
+    public List<EmployeeDTO> updateAllEmployees(Map<String, Object> updates) {
+
+        List<EmployeeEntity> employeeEntity= employeeRepository.findAll();
+        List<EmployeeDTO> updatedEmployees = new ArrayList<>();
+
+        for(EmployeeEntity employeeEntity1 : employeeEntity){
+            updates.forEach((key, value)->{
+                Field field=ReflectionUtils.findField(EmployeeEntity.class,key);
+                if(field==null) return ;
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, employeeEntity1,value);
+            });
+            EmployeeEntity employeeEntity2=employeeRepository.save(employeeEntity1);
+            updatedEmployees.add(modelMapper.map(employeeEntity2, EmployeeDTO.class));
+        }
+        return updatedEmployees;
+        }
 }
