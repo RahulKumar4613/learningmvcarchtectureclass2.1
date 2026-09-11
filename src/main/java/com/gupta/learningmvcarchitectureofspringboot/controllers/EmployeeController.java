@@ -2,6 +2,7 @@ package com.gupta.learningmvcarchitectureofspringboot.controllers;
 
 import com.gupta.learningmvcarchitectureofspringboot.DTO.EmployeeDTO;
 import com.gupta.learningmvcarchitectureofspringboot.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class EmployeeController {
 
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employee) {
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid EmployeeDTO employee) {
 
         EmployeeDTO employeeDTO = employeeService.save(employee);
         return new ResponseEntity<>(employeeDTO, HttpStatus.CREATED);

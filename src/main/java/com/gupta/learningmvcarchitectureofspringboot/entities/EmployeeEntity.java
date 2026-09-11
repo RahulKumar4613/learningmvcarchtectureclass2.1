@@ -22,7 +22,9 @@ public class EmployeeEntity {
     private String name;
     private int age;
     private String address;
+    private String role;
     private LocalDate dob;
+    private Double salary;
     private Boolean isActive;
 
 }
