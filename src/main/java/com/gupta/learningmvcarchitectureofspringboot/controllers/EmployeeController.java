@@ -1,6 +1,7 @@
 package com.gupta.learningmvcarchitectureofspringboot.controllers;
 
 import com.gupta.learningmvcarchitectureofspringboot.DTO.EmployeeDTO;
+import com.gupta.learningmvcarchitectureofspringboot.Exception.ResourceNotFoundException;
 import com.gupta.learningmvcarchitectureofspringboot.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,21 +26,12 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<EmployeeDTO>> getEmployeeDetails(@PathVariable Long id) {
-
-
-
-      //  return employeeDTO.map(employeeDTO1-> ResponseEntity.ok(employeeDTO1))
-         //       .orElse(ResponseEntity.notFound().build());
-          // lambda expression converted into method reference for better readability
-
-             if(employeeService.findById(id).isPresent()){
-                 return ResponseEntity.ok(employeeService.findById(id));
-             }
-             else{
-                 return ResponseEntity.notFound().build();
-             }
+        Optional<EmployeeDTO> employeeDTO=employeeService.findById(id);
+             if(employeeDTO.isPresent())
+                 return ResponseEntity.ok(employeeDTO);
+             else
+                 throw new ResourceNotFoundException("Employee is not found"+ " "+id);
     }
-
 
     @PostMapping
     public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid EmployeeDTO employee) {
@@ -48,6 +40,8 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDTO, HttpStatus.CREATED);
     }
 
+
+
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
 
@@ -55,7 +49,7 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<EmployeeDTO> updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+    public ResponseEntity<EmployeeDTO> updateById(@PathVariable Long id, @RequestBody @Valid EmployeeDTO employee) {
 
         EmployeeDTO employeeDTO = employeeService.updateById(id, employee);
         return ResponseEntity.ok(employeeDTO);

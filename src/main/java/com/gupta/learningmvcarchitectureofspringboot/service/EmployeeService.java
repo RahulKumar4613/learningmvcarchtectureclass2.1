@@ -2,6 +2,7 @@ package com.gupta.learningmvcarchitectureofspringboot.service;
 
 
 import com.gupta.learningmvcarchitectureofspringboot.DTO.EmployeeDTO;
+import com.gupta.learningmvcarchitectureofspringboot.Exception.ResourceNotFoundException;
 import com.gupta.learningmvcarchitectureofspringboot.entities.EmployeeEntity;
 import com.gupta.learningmvcarchitectureofspringboot.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
@@ -68,24 +69,25 @@ public class EmployeeService {
 
         EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
 
-        boolean isexist= IsExist(id);
-
-        if (isexist) {
-            employeeEntity.setId(id);
-        }
-        EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
-        return modelMapper.map(employeeEntity1, EmployeeDTO.class);
+         if(!IsExist(id))
+             throw new ResourceNotFoundException("Employee not found with this id :"+" "+id);
+         else {
+             employeeEntity.setId(id);
+             EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
+             return modelMapper.map(employeeEntity1, EmployeeDTO.class);
+         }
 
         
     }
 
     public boolean deleteById(Long id) {
-        boolean
-                isexist= IsExist(id);
-        if(!isexist)
-            return false;
-        employeeRepository.deleteById(id);
-        return true;
+
+        if(!IsExist(id))
+            throw new ResourceNotFoundException("can not delete the employee as user with this id :"+id+"  is not present");
+        else {
+            employeeRepository.deleteById(id);
+            return true;
+        }
     }
 
 

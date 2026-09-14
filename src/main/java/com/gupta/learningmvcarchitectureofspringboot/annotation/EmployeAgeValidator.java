@@ -7,7 +7,7 @@ public class EmployeAgeValidator implements ConstraintValidator<EmployeeAgeValid
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
 
-
+       if(value==null) return false;
 
         for (int i = 2; i < value / 2; i++) {
             if (value % i == 0)
