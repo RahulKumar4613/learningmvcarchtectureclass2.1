@@ -27,4 +27,5 @@ public class EmployeeEntity {
     private Double salary;
     private Boolean isActive;
 
+
 }

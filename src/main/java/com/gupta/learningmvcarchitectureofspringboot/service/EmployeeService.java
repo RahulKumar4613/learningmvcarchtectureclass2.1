@@ -29,7 +29,9 @@ public class EmployeeService {
     }
 
     public boolean IsExist(Long id){
+
         return employeeRepository.existsById(id);
+
     }
 
 
@@ -80,13 +82,14 @@ public class EmployeeService {
         
     }
 
-    public boolean deleteById(Long id) {
+    public Boolean  deleteById(Long id) {
 
         if(!IsExist(id))
             throw new ResourceNotFoundException("can not delete the employee as user with this id :"+id+"  is not present");
         else {
-            employeeRepository.deleteById(id);
-            return true;
+                 employeeRepository.deleteById(id);
+           return true;
+
         }
     }
 

@@ -24,7 +24,6 @@ public class EmployeeDTO {
     @Positive(message="age can be positive number only")
     @EmployeeAgeValidation
     private Integer age;
-  //  @Pattern(regexp="^(ADMIN|USER)$", message="Role must be either ADMIN or USER")
     @EmployeeRoleValidation
     private String role;
     private String address;
